@@ -1,0 +1,6 @@
+@Transport.WebHost_HostAddress = http://localhost:5136
+
+GET {{Transport.WebHost_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
