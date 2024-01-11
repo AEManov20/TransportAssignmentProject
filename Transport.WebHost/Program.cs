@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Transport.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +8,38 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!, o =>
+    {
+        o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        o.MigrationsAssembly(typeof(Program).Assembly.FullName);
+    });
+
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableSensitiveDataLogging();
+    }
+
+    options.EnableThreadSafetyChecks();
+    options.EnableDetailedErrors();
+});
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddCors(options =>
+    {
+        // ReSharper disable once VariableHidesOuterVariable
+        options.AddDefaultPolicy(builder =>
+            builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+    });
+}
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -15,4 +49,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.Run();
