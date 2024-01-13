@@ -2,7 +2,7 @@
 
 public partial class Driver
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public short AvailabilityStatus { get; set; }
 

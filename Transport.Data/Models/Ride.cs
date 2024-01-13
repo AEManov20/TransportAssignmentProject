@@ -2,7 +2,7 @@
 
 public partial class Ride
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid RiderId { get; set; }
 
@@ -11,6 +11,12 @@ public partial class Ride
     public short Status { get; set; }
 
     public DateTime RequestedOn { get; set; }
+
+    public DateTime? AcceptedOn { get; set; }
+
+    public DateTime? TookOffOn { get; set; }
+
+    public DateTime? ArrivedOn { get; set; }
 
     public Guid? UserReviewId { get; set; }
 

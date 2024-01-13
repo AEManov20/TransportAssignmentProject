@@ -2,7 +2,7 @@
 
 public partial class UserReview
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid AuthorId { get; set; }
 

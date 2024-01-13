@@ -2,7 +2,7 @@
 
 public partial class RideStop
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid RideId { get; set; }
 
