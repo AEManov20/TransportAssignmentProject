@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Implementations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Transport.BusinessLogic.Models\Transport.BusinessLogic.Models.csproj" />
+    <ProjectReference Include="..\Transport.Data\Transport.Data.csproj" />
+  </ItemGroup>
+
 </Project>
