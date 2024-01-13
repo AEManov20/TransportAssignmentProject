@@ -38,12 +38,12 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.IdNavigation).WithOne(p => p.Driver)
                 .HasForeignKey<Driver>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Drivers_Users_FK");
 
             entity.HasOne(d => d.Vehicle).WithMany(p => p.Drivers)
                 .HasForeignKey(d => d.VehicleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Drivers_Vehicles_FK");
         });
 
@@ -56,12 +56,12 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.Driver).WithMany(p => p.Rides)
                 .HasForeignKey(d => d.DriverId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Rides_Drivers_FK");
 
             entity.HasOne(d => d.Rider).WithMany(p => p.Rides)
                 .HasForeignKey(d => d.RiderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Rides_Users_FK");
 
             entity.HasOne(d => d.UserReview).WithMany(p => p.Rides)
@@ -80,7 +80,7 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.Ride).WithMany(p => p.RideStops)
                 .HasForeignKey(d => d.RideId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("RideStops_Rides_FK");
         });
 
@@ -120,7 +120,7 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.Author).WithMany(p => p.UserReviews)
                 .HasForeignKey(d => d.AuthorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("UserReviews_Users_FK");
         });
 
@@ -132,12 +132,12 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.Driver).WithMany(p => p.UserReviewsDrivers)
                 .HasForeignKey(d => d.DriverId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("UserReviewsDrivers_Drivers_FK");
 
             entity.HasOne(d => d.UserReview).WithOne(p => p.UserReviewsDriver)
                 .HasForeignKey<UserReviewsDriver>(d => d.UserReviewId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("UserReviewsDrivers_UserReviews_FK");
         });
 
