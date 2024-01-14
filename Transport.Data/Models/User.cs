@@ -1,20 +1,15 @@
-﻿namespace Transport.Data.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
-public partial class User
+namespace Transport.Data.Models;
+
+public partial class User : IdentityUser<Guid>
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public override Guid Id { get; set; } = Guid.NewGuid();
 
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
-
-    public string Username { get; set; } = null!;
-
-    public string PasswordHash { get; set; } = null!;
-
-    public string Email { get; set; } = null!;
-
-    public string PhoneNumber { get; set; } = null!;
 
     public virtual Driver? Driver { get; set; }
 

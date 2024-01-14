@@ -56,12 +56,13 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.Driver).WithMany(p => p.Rides)
                 .HasForeignKey(d => d.DriverId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Rides_Drivers_FK");
 
             entity.HasOne(d => d.Rider).WithMany(p => p.Rides)
                 .HasForeignKey(d => d.RiderId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("Rides_Users_FK");
 
             entity.HasOne(d => d.UserReview).WithMany(p => p.Rides)
@@ -89,24 +90,6 @@ public partial class ApplicationDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("Users_PK");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Email)
-                .HasMaxLength(320)
-                .IsUnicode(false);
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.LastName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(250)
-                .IsUnicode(false);
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.Username)
-                .HasMaxLength(100)
-                .IsUnicode(false);
         });
 
         modelBuilder.Entity<UserReview>(entity =>
@@ -137,7 +120,7 @@ public partial class ApplicationDbContext : DbContext
 
             entity.HasOne(d => d.UserReview).WithOne(p => p.UserReviewsDriver)
                 .HasForeignKey<UserReviewsDriver>(d => d.UserReviewId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("UserReviewsDrivers_UserReviews_FK");
         });
 

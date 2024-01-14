@@ -1,10 +1,17 @@
 ﻿namespace Transport.Data.Models;
 
+public enum DriverAvailability : short
+{
+    Available,
+    Driving,
+    Offline
+}
+
 public partial class Driver
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public short AvailabilityStatus { get; set; }
+    public DriverAvailability AvailabilityStatus { get; set; }
 
     public Guid VehicleId { get; set; }
 
