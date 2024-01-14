@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Transport.Data.Models;
 
@@ -21,7 +22,7 @@ public class TokenService : ITokenService
 
     public async Task<JwtSecurityToken?> CreateTokenForUserAsync(Guid userId)
     {
-        var user = await this.userManager.FindByIdAsync(userId.ToString());
+        var user = await this.userManager.Users.FirstOrDefaultAsync(e => e.Id == userId);
 
         if (user == null)
         {

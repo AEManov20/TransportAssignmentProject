@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Transport.Data.Models;
 
 namespace Transport.Data;
 
-public partial class ApplicationDbContext : DbContext
+public partial class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public ApplicationDbContext()
     {
@@ -19,8 +21,6 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Ride> Rides { get; set; }
 
     public virtual DbSet<RideStop> RideStops { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserReview> UserReviews { get; set; }
 
@@ -146,6 +146,7 @@ public partial class ApplicationDbContext : DbContext
                 .IsUnicode(false);
         });
 
+        base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 

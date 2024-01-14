@@ -23,6 +23,9 @@ public class UserInputModel
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required]
+    public string UserName { get; set; } = string.Empty;
+
+    [Required]
     [StringLength(42, MinimumLength = 8)]
     public string Password { get; set; } = string.Empty;
 }
