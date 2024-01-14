@@ -1,14 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.15">
       <PrivateAssets>all</PrivateAssets>
@@ -18,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Transport.BusinessLogic.Models\Transport.BusinessLogic.Models.csproj" />
     <ProjectReference Include="..\Transport.BusinessLogic.Services\Transport.BusinessLogic.Services.csproj" />
-    <ProjectReference Include="..\Transport.BusinessLogic.Repositories\Transport.BusinessLogic.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
