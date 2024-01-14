@@ -80,4 +80,29 @@ internal class UserService : IUserService
 
         return await userManager.ChangePasswordAsync(user, currentPassword, newPassword);
     }
+
+    public async Task<bool> UpdateUserLocationAsync(Guid id, double latitude, double longitude)
+    {
+        var user = await userManager.Users.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (user == null)
+            return false;
+
+        user.LastPingedLatitude = latitude;
+        user.LastPingedLongitude = longitude;
+
+        var identityResult = await userManager.UpdateAsync(user);
+
+        return identityResult.Succeeded;
+    }
+
+    public async Task<Tuple<double, double>?> GetUserLocationAsync(Guid id)
+    {
+        var user = await userManager.Users.FirstOrDefaultAsync(e => e.Id == id);
+
+        if (user == null)
+            return null;
+
+        return new(user.LastPingedLatitude, user.LastPingedLongitude);
+    }
 }

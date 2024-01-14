@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Transactions;
+using Microsoft.AspNetCore.Identity;
 using Transport.BusinessLogic.Models;
 using Transport.Data.Models;
 
@@ -43,4 +44,20 @@ public interface IUserService
     /// <param name="newPassword">New user password</param>
     /// <returns>A boolean which tells whether the user's password has been updated</returns>
     Task<IdentityResult?> UpdateUserPassword(Guid id, string currentPassword, string newPassword);
+
+    /// <summary>
+    /// Updates the user ping location
+    /// </summary>
+    /// <param name="id">User ID</param>
+    /// <param name="latitude">Geographical latitude</param>
+    /// <param name="longitude">Geographical longitude</param>
+    /// <returns>A boolean which tells whether the operation was successful or not</returns>
+    Task<bool> UpdateUserLocationAsync(Guid id, double latitude, double longitude);
+
+    /// <summary>
+    /// Gets the last pinged user location
+    /// </summary>
+    /// <param name="id">User ID</param>
+    /// <returns>A tuple with the latitude and longitude</returns>
+    Task<Tuple<double, double>?> GetUserLocationAsync(Guid id);
 }

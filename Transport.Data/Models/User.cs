@@ -11,6 +11,10 @@ public partial class User : IdentityUser<Guid>
 
     public string LastName { get; set; } = null!;
 
+    public double LastPingedLatitude { get; set; }
+
+    public double LastPingedLongitude { get; set; }
+
     public virtual Driver? Driver { get; set; }
 
     public virtual ICollection<Ride> Rides { get; set; } = new List<Ride>();
