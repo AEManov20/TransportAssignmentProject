@@ -14,10 +14,6 @@ public class UserInputModel
     public string LastName { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(100, MinimumLength = 4)]
-    public string Username { get; set; } = string.Empty;
-
-    [Required]
     [StringLength(320, MinimumLength = 1)]
     [BetterEmailAddress]
     public string Email { get; set; } = string.Empty;

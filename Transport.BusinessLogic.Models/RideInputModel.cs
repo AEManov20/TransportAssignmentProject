@@ -5,8 +5,8 @@ namespace Transport.BusinessLogic.Models;
 public class RideInputModel
 {
     [Required]
-    public Guid DriverId { get; set; }
+    public Guid RiderId { get; set; }
 
     [Required]
-    ICollection<RideStopInputModel> RideStops { get; set; }
+    public ICollection<RideStopInputModel> RideStops { get; set; } = new List<RideStopInputModel>();
 }
