@@ -17,6 +17,13 @@ public class Mappings : Profile
         CreateMap<Driver, DriverViewModel>();
         CreateMap<UserReview, UserReviewViewModel>();
         CreateMap<RideStop, RideStopViewModel>();
-        CreateMap<Ride, RideViewModel>();
+        CreateMap<Ride, RideViewModel>()
+            .ForMember(
+                x => x.RideStops, 
+                opt => opt.MapFrom(y => y.RideStops.Select(x => new RideStopViewModel()
+                {
+                    AddressText = x.AddressText,
+                    OrderingNumber = x.OrderingNumber
+                })));
     }
 }
