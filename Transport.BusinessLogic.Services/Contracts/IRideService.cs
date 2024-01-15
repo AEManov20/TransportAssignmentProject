@@ -66,6 +66,13 @@ public interface IRideService
     Task<RideViewModel?> UpdateUserReviewIdAsync(Guid id, Guid? userReviewId);
 
     /// <summary>
+    /// Checks whether a driver has unfinished rides
+    /// </summary>
+    /// <param name="driverId">Driver ID</param>
+    /// <returns>A boolean which tells whether a drier has unfinished rides</returns>
+    Task<bool> DriverHasUnfinishedRides(Guid driverId);
+
+    /// <summary>
     /// Gets a list of the driver's rides via a driver ID
     /// </summary>
     /// <param name="driverId">Driver ID</param>

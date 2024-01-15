@@ -165,6 +165,13 @@ public class RideService : IRideService
         return mapper.Map<RideViewModel>(ride);
     }
 
+    public async Task<bool> DriverHasUnfinishedRides(Guid driverId)
+    {
+        return await context.Rides
+            .Where(x => x.Status != RideStatus.Cancelled && x.Status != RideStatus.Finalized)
+            .AnyAsync();
+    }
+
     public async Task<RideViewModel?> UpdateUserReviewIdAsync(Guid id, Guid? userReviewId)
     {
         var ride = await context.Rides.FirstOrDefaultAsync(e => e.Id == id);
