@@ -8,9 +8,9 @@ namespace Transport.WebHost.Controllers;
 [ApiController]
 [Route("api/ride")]
 [Authorize]
-class RideController : Controller
+public class RideController : Controller
 {
-    IRideService rideService;
+    private readonly IRideService rideService;
 
     public RideController(IRideService rideService)
     {
@@ -21,5 +21,16 @@ class RideController : Controller
     public async Task<ActionResult<ICollection<RideViewModel>>> DiscoverRidesAsync()
     {
         return Ok(await rideService.GetRequestedRidesAsync());
+    }
+
+    [HttpGet("google-maps-link")]
+    public async Task<ActionResult<string>> GetGoogleMapsLinkAsync([FromQuery] Guid rideId)
+    {
+        var link = await rideService.GetGoogleMapsLinkAsync(rideId);
+
+        if (link == null)
+            return NotFound("ride-not-found");
+        
+        return Ok(link);
     }
 }
