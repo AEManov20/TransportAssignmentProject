@@ -187,4 +187,12 @@ public class RideService : IRideService
 
         return mapper.Map<RideViewModel>(ride);
     }
+
+    public async Task<ICollection<RideViewModel>> GetRequestedRidesAsync()
+    {
+        return await context.Rides
+            .Where(e => e.Status == RideStatus.Requested)
+            .Select(e => mapper.Map<RideViewModel>(e))
+            .ToListAsync();
+    }
 }

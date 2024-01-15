@@ -87,4 +87,10 @@ public interface IRideService
     /// <param name="isOnGoing">Filters ongoing rides</param>
     /// <returns>The list of the user's rides</returns>
     Task<ICollection<RideViewModel>?> GetUserRidesAsync(Guid userId, bool isOnGoing = false);
+
+    /// <summary>
+    /// Gets a list of the users' requested rides
+    /// </summary>
+    /// <returns>A collection if rides</returns>
+    Task<ICollection<RideViewModel>> GetRequestedRidesAsync();
 }
