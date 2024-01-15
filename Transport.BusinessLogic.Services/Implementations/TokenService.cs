@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Transport.BusinessLogic.Services.Contracts;
 using Transport.Data.Models;
 
 namespace Transport.BusinessLogic.Services.Implementations;
@@ -34,6 +35,7 @@ public class TokenService : ITokenService
         var authClaims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Email, user.Email!)
         };
 
         authClaims

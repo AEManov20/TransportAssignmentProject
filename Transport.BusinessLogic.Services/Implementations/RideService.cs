@@ -26,25 +26,48 @@ public class RideService : IRideService
             RiderId = rideInput.RiderId
         };
 
-        ride.RideStops = rideInput.RideStops
+        context.Rides.Add(ride);
+
+        context.RideStops.AddRange(rideInput.RideStops
             .Select((e, i) => new RideStop()
                 {
                     RideId = ride.Id,
                     AddressText = e.AddressText,
                     OrderingNumber = (short)i
-                })
-            .ToList();
-
-        context.Rides.Add(ride);
+                }));
 
         await context.SaveChangesAsync();
 
         return mapper.Map<RideViewModel>(ride);
     }
 
-    public Task<RideViewModel?> UpdateRideStopsAsync(Guid id, ICollection<RideStopInputModel> rideStops)
+    public async Task<RideViewModel?> UpdateRideStopsAsync(Guid id, ICollection<RideStopInputModel> rideStops)
     {
-        throw new NotImplementedException();
+        context.RemoveRange(context.RideStops.Where(r => r.RideId == id));
+        context.AddRange(rideStops.Select((e, i) => new RideStop()
+        {
+            AddressText = e.AddressText,
+            OrderingNumber = (short)i,
+            RideId = id
+        }));
+
+        await context.SaveChangesAsync();
+        
+        return mapper.Map<RideViewModel>(await context.Rides
+            .Include(e => e.RideStops)
+            .FirstOrDefaultAsync(e => e.Id == id));
+    }
+
+    public async Task<RideViewModel?> GetRideByIdAsync(Guid id)
+    {
+        var ride = await context.Rides
+            .Include(e => e.RideStops)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (ride == null)
+            return null;
+
+        return mapper.Map<RideViewModel>(ride);
     }
 
     public async Task<ICollection<RideViewModel>?> GetDriverRidesAsync(Guid driverId, bool isOnGoing = false)
@@ -142,7 +165,7 @@ public class RideService : IRideService
         return mapper.Map<RideViewModel>(ride);
     }
 
-    public async Task<RideViewModel?> UpdateUserReviewId(Guid id, Guid? userReviewId)
+    public async Task<RideViewModel?> UpdateUserReviewIdAsync(Guid id, Guid? userReviewId)
     {
         var ride = await context.Rides.FirstOrDefaultAsync(e => e.Id == id);
 

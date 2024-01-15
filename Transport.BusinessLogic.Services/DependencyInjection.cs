@@ -14,6 +14,7 @@ public static class DependencyInjection
             .AddScoped<IAuthService, AuthService>()
             .AddScoped<IReviewService, ReviewService>()
             .AddScoped<IRideService, RideService>()
-            .AddScoped<ITokenService, TokenService>();
+            .AddScoped<ITokenService, TokenService>()
+            .AddScoped<IAuthedUser, AuthedUser>();
     }
 }
