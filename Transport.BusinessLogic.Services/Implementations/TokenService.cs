@@ -10,7 +10,7 @@ using Transport.Data.Models;
 
 namespace Transport.BusinessLogic.Services.Implementations;
 
-public class TokenService : ITokenService
+internal class TokenService : ITokenService
 {
     private readonly UserManager<User> userManager;
     private readonly IConfiguration configuration;

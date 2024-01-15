@@ -7,7 +7,7 @@ using Transport.Data.Models;
 
 namespace Transport.BusinessLogic.Services.Implementations;
 
-public class ReviewService : IReviewService
+internal class ReviewService : IReviewService
 {
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;

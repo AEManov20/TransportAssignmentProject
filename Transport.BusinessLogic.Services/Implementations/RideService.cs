@@ -8,7 +8,7 @@ using Transport.Data.Models;
 
 namespace Transport.BusinessLogic.Services.Implementations;
 
-public class RideService : IRideService
+internal class RideService : IRideService
 {
     private readonly ApplicationDbContext context;
     private readonly IMapper mapper;

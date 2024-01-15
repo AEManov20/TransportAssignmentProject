@@ -1,13 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Runtime.CompilerServices;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Transport.BusinessLogic.Services.Contracts;
 using Transport.Data;
 using Transport.Data.Models;
 
+
+[assembly: InternalsVisibleTo("Transport.BusinessLogic.Tests")]
+
 namespace Transport.BusinessLogic.Services.Implementations;
 
-public class AuthService : IAuthService
+internal class AuthService : IAuthService
 {
     private readonly UserManager<User> userManager;
     private readonly SignInManager<User> signInManager;
