@@ -7,28 +7,22 @@ using Transport.BusinessLogic.Services.Contracts;
 
 namespace Transport.WebHost.Controllers;
 
-[ApiController]
 [Route("api/auth")]
+[ApiController]
 public class AuthController : Controller
 {
     private readonly IUserService userService;
     private readonly ITokenService tokenService;
     private readonly IAuthService authService;
-    private readonly ILogger<AuthController> logger;
-    private readonly IMapper mapper;
 
     public AuthController(
         IUserService userService,
         ITokenService tokenService,
-        IAuthService authService,
-        ILogger<AuthController> logger,
-        IMapper mapper)
+        IAuthService authService)
     {
         this.userService = userService;
         this.tokenService = tokenService;
         this.authService = authService;
-        this.logger = logger;
-        this.mapper = mapper;
     }
 
     [HttpPost("signup")]

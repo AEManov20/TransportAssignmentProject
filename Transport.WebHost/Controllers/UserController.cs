@@ -16,20 +16,17 @@ public class UserController : Controller
     private readonly IUserService userService;
     private readonly IAuthedUser authedUser;
     private readonly IRideService rideService;
-    private readonly ILogger<UserController> logger;
     private readonly IMapper mapper;
 
     public UserController(
         IUserService userService,
         IAuthedUser authedUser,
         IRideService rideService,
-        ILogger<UserController> logger,
         IMapper mapper)
     {
         this.userService = userService;
         this.authedUser = authedUser;
         this.rideService = rideService;
-        this.logger = logger;
         this.mapper = mapper;
     }
 
@@ -110,6 +107,9 @@ public class UserController : Controller
         
         if (ride == null)
             return NotFound("ride-not-found");
+
+        if (ride.RiderId != authedUser.UserId)
+            return BadRequest("not-rider-of-ride");
 
         if (ride.Status == RideStatus.Cancelled)
             return BadRequest("ride-already-cancelled");
