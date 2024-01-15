@@ -11,7 +11,7 @@ public partial class Driver
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public DriverAvailability AvailabilityStatus { get; set; }
+    public DriverAvailability AvailabilityStatus { get; set; } = DriverAvailability.Offline;
 
     public Guid VehicleId { get; set; }
 
