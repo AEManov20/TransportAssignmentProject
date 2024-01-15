@@ -1,6 +1,8 @@
 ﻿
 using System.IdentityModel.Tokens.Jwt;
 
+namespace Transport.BusinessLogic.Services.Contracts;
+
 public interface ITokenService
 {
     /// <summary>

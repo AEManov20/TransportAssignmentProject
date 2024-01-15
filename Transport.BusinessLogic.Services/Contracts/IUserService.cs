@@ -49,15 +49,14 @@ public interface IUserService
     /// Updates the user ping location
     /// </summary>
     /// <param name="id">User ID</param>
-    /// <param name="latitude">Geographical latitude</param>
-    /// <param name="longitude">Geographical longitude</param>
+    /// <param name="location">Geographical location</param>
     /// <returns>A boolean which tells whether the operation was successful or not</returns>
-    Task<bool> UpdateUserLocationAsync(Guid id, double latitude, double longitude);
+    Task<bool> UpdateUserLocationAsync(Guid id, LocationModel location);
 
     /// <summary>
     /// Gets the last pinged user location
     /// </summary>
     /// <param name="id">User ID</param>
     /// <returns>A tuple with the latitude and longitude</returns>
-    Task<Tuple<double, double>?> GetUserLocationAsync(Guid id);
+    Task<LocationModel?> GetUserLocationAsync(Guid id);
 }

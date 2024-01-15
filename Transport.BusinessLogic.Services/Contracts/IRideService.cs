@@ -13,6 +13,12 @@ public interface IRideService
     /// <returns>The newly created ride's data</returns>
     Task<RideViewModel?> CreateRideAsync(RideInputModel ride, Guid riderId);
 
+    /// <summary>
+    /// Updates the rides 
+    /// </summary>
+    /// <param name="id">Ride ID</param>
+    /// <param name="rideStops">Collection of ride stops</param>
+    /// <returns></returns>
     Task<RideViewModel?> UpdateRideStopsAsync(Guid id, ICollection<RideStopInputModel> rideStops);
 
     /// <summary>
@@ -26,6 +32,7 @@ public interface IRideService
     /// Marks a ride as accepted
     /// </summary>
     /// <param name="id">Ride ID</param>
+    /// <param name="acceptedByDriverId">ID of driver who's accepted the ride</param>
     /// <returns>The updated ride's data</returns>
     Task<RideViewModel?> MarkRideAcceptedAsync(Guid id, Guid acceptedByDriverId);
 
@@ -44,12 +51,19 @@ public interface IRideService
     Task<RideViewModel?> MarkRideArrivedAsync(Guid id);
 
     /// <summary>
+    /// Gets a ride by given ID
+    /// </summary>
+    /// <param name="id">Ride ID</param>
+    /// <returns>The ride</returns>
+    Task<RideViewModel?> GetRideByIdAsync(Guid id);
+
+    /// <summary>
     /// Updates the ride's user review
     /// </summary>
     /// <param name="id">Ride ID</param>
     /// <param name="userReviewId">User review ID</param>
     /// <returns>The updated ride's data</returns>
-    Task<RideViewModel?> UpdateUserReviewId(Guid id, Guid? userReviewId);
+    Task<RideViewModel?> UpdateUserReviewIdAsync(Guid id, Guid? userReviewId);
 
     /// <summary>
     /// Gets a list of the driver's rides via a driver ID
