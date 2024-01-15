@@ -193,4 +193,16 @@ internal class RideService : IRideService
             .Select(e => mapper.Map<RideViewModel>(e))
             .ToListAsync();
     }
+
+    public async Task<string?> GetGoogleMapsLinkAsync(Guid rideId)
+    {
+        var ride = await GetRideByIdAsync(rideId);
+
+        if (ride == null) return null;
+
+        return "https://www.google.com/maps/dir/" + string.Join(
+            '/', ride.RideStops
+                .OrderBy(x => x.OrderingNumber)
+                .Select(x => $"{x.Latitude},{x.Longitude}"));
+    }
 }
