@@ -20,10 +20,6 @@ public class Mappings : Profile
         CreateMap<Ride, RideViewModel>()
             .ForMember(
                 x => x.RideStops, 
-                opt => opt.MapFrom(y => y.RideStops.Select(x => new RideStopViewModel()
-                {
-                    AddressText = x.AddressText,
-                    OrderingNumber = x.OrderingNumber
-                })));
+                opt => opt.MapFrom(y => y.RideStops));
     }
 }
