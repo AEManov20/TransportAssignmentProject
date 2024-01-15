@@ -11,9 +11,9 @@ public class RideViewModel
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public User Rider { get; set; }
+    public Guid RiderId { get; set; }
 
-    public Driver Driver { get; set; }
+    public Guid? DriverId { get; set; }
 
     public RideStatus Status { get; set; }
 
@@ -27,5 +27,5 @@ public class RideViewModel
 
     public UserReviewViewModel? UserReview { get; set; }
 
-    public ICollection<RideStop> RideStops { get; set; } = new List<RideStop>();
+    public ICollection<RideStopViewModel> RideStops { get; set; } = new List<RideStopViewModel>();
 }
