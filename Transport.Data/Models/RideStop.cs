@@ -6,9 +6,13 @@ public partial class RideStop
 
     public Guid RideId { get; set; }
 
-    public string AddressText { get; set; } = null!;
+    public string? AddressText { get; set; } = null!;
 
     public short OrderingNumber { get; set; }
+
+    public double Latitude { get; set; }
+
+    public double Longitude { get; set; }
 
     public virtual Ride Ride { get; set; } = null!;
 }
