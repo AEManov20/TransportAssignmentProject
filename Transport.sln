@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transport.WebHost", "Transp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transport.Data", "Transport.Data\Transport.Data.csproj", "{AFAD6374-12C7-45D9-A364-6E01F94A5C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transport.BusinessLogic.Models", "Transport.BusinessLogic.Models\Transport.BusinessLogic.Models.csproj", "{6751DF04-84EE-4BA1-8875-0E804D799FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transport.BusinessLogic.Models", "Transport.BusinessLogic.Models\Transport.BusinessLogic.Models.csproj", "{6751DF04-84EE-4BA1-8875-0E804D799FD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transport.BusinessLogic.Tests", "Transport.BusinessLogic.Tests\Transport.BusinessLogic.Tests.csproj", "{5A4F2778-BB63-41BA-BBA9-E7DECADA53BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6751DF04-84EE-4BA1-8875-0E804D799FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6751DF04-84EE-4BA1-8875-0E804D799FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6751DF04-84EE-4BA1-8875-0E804D799FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A4F2778-BB63-41BA-BBA9-E7DECADA53BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A4F2778-BB63-41BA-BBA9-E7DECADA53BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A4F2778-BB63-41BA-BBA9-E7DECADA53BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A4F2778-BB63-41BA-BBA9-E7DECADA53BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
