@@ -93,4 +93,11 @@ public interface IRideService
     /// </summary>
     /// <returns>A collection if rides</returns>
     Task<ICollection<RideViewModel>> GetRequestedRidesAsync();
+
+    /// <summary>
+    /// Generates a Google Maps directions link from provided valid ride ID
+    /// </summary>
+    /// <param name="rideId">Ride ID</param>
+    /// <returns>A Google Maps directions link</returns>
+    Task<string?> GetGoogleMapsLinkAsync(Guid rideId);
 }
