@@ -37,7 +37,8 @@ public class UserController : Controller
     public async Task<IActionResult> PingLocationAsync([FromQuery] LocationModel location)
     {
         if (!await userService.UpdateUserLocationAsync(authedUser.UserId, location))
-            return BadRequest();
+            return BadRequest("failed-updating");
+
         return Ok();
     }
 
@@ -55,7 +56,7 @@ public class UserController : Controller
         var user = await userService.GetUserByIdAsync(authedUser.UserId);
 
         if (user == null)
-            return BadRequest();
+            return BadRequest("user-not-found");
 
         return Ok(user);
     }
@@ -66,7 +67,7 @@ public class UserController : Controller
         var (user, identityResult) = await userService.UpdateUserAsync(authedUser.UserId, userUpdate);
         
         if (user == null || identityResult is not { Succeeded: true })
-            return BadRequest();
+            return BadRequest("failed-updating");
 
         return Ok(user);
     }
@@ -78,7 +79,7 @@ public class UserController : Controller
         var rides = await rideService.GetUserRidesAsync(authedUser.UserId, ongoing);
 
         if (rides == null)
-            return BadRequest();
+            return BadRequest("user-not-found");
 
         return Ok(rides);
     }
@@ -97,7 +98,7 @@ public class UserController : Controller
         var ride = await rideService.CreateRideAsync(rideInput, authedUser.UserId);
 
         if (ride == null)
-            return BadRequest();
+            return BadRequest("failed-creating");
 
         return Ok(ride);
     }
@@ -108,15 +109,15 @@ public class UserController : Controller
         var ride = await rideService.GetRideByIdAsync(cancelRide.RideId);
         
         if (ride == null)
-            return NotFound("Ride not found");
+            return NotFound("ride-not-found");
 
         if (ride.Status == RideStatus.Cancelled)
-            return BadRequest("Ride has already been cancelled");
+            return BadRequest("ride-already-cancelled");
 
         ride = await rideService.CancelRideAsync(cancelRide.RideId);
 
         if (ride == null)
-            return BadRequest("Could not cancel ride");
+            return BadRequest("failed-cancelling");
 
         return Ok(ride);
     }
@@ -125,12 +126,12 @@ public class UserController : Controller
     public async Task<ActionResult<UserViewModel>> GetUserById(string id)
     {
         if (!Guid.TryParse(id, out var parsedId))
-            return BadRequest("Invalid ID");
+            return BadRequest("invalid-id");
 
         var user = await userService.GetUserByIdAsync(parsedId);
 
         if (user == null)
-            return NotFound();
+            return NotFound("user-not-found");
 
         return Ok(user);
     }

@@ -36,7 +36,7 @@ public class AuthController : Controller
     {
         if (await authService.CheckUserExistsAsync(userInput.Email))
         {
-            return BadRequest("User already exists");
+            return Conflict("user-already-exists");
         }
 
         var (_, identityResult) = await userService.CreateUserAsync(userInput);
@@ -52,12 +52,12 @@ public class AuthController : Controller
     {
         if (!await authService.CheckUserExistsAsync(userInput.Email))
         {
-            return NotFound("User not found");
+            return NotFound("user-not-found");
         }
 
         if (!await authService.CheckPassword(userInput.Email, userInput.Password))
         {
-            return BadRequest("Incorrect password");
+            return BadRequest("incorrect-password");
         }
 
         var user = await userService.GetUserByEmailAsync(userInput.Email);
