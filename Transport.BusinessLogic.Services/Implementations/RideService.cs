@@ -23,7 +23,7 @@ internal class RideService : IRideService
     {
         var ride = new Ride()
         {
-            RiderId = rideInput.RiderId
+            RiderId = riderId
         };
 
         context.Rides.Add(ride);
@@ -72,30 +72,26 @@ internal class RideService : IRideService
 
     public async Task<ICollection<RideViewModel>?> GetDriverRidesAsync(Guid driverId, bool isOnGoing = false)
     {
-        var driver = await context.Drivers.Include(e => e.Rides).FirstOrDefaultAsync(e => e.Id == driverId);
-
-        if (driver == null)
-            return null;
-
-        var rides = driver.Rides.Select(e => mapper.Map<RideViewModel>(e));
+        var rides = context.Rides
+            .Include(e => e.RideStops)
+            .Where(e => e.DriverId == driverId)
+            .Select(e => mapper.Map<RideViewModel>(e));
 
         return isOnGoing
-            ? rides.Where(e => e.Status != RideStatus.Finalized || e.Status != RideStatus.Cancelled).ToList()
-            : rides.ToList();
+            ? await rides.Where(e => e.Status != RideStatus.Finalized || e.Status != RideStatus.Cancelled).ToListAsync()
+            : await rides.ToListAsync();
     }
 
     public async Task<ICollection<RideViewModel>?> GetUserRidesAsync(Guid userId, bool isOnGoing = false)
     {
-        var user = await context.Users.Include(e => e.Rides).FirstOrDefaultAsync(e => e.Id == userId);
-
-        if (user == null)
-            return null;
-
-        var rides = user.Rides.Select(e => mapper.Map<RideViewModel>(e));
+        var rides = context.Rides
+            .Include(e => e.RideStops)
+            .Where(e => e.RiderId == userId)
+            .Select(e => mapper.Map<RideViewModel>(e));
 
         return isOnGoing
-            ? rides.Where(e => e.Status != RideStatus.Finalized || e.Status != RideStatus.Cancelled).ToList()
-            : rides.ToList();
+            ? await rides.Where(e => e.Status != RideStatus.Finalized || e.Status != RideStatus.Cancelled).ToListAsync()
+            : await rides.ToListAsync();
     }
 
     public async Task<RideViewModel?> CancelRideAsync(Guid id)
@@ -123,6 +119,7 @@ internal class RideService : IRideService
 
         ride.Status = RideStatus.Accepted;
         ride.AcceptedOn = DateTime.UtcNow;
+        ride.DriverId = acceptedByDriverId;
 
         context.Rides.Update(ride);
 
@@ -191,6 +188,7 @@ internal class RideService : IRideService
     public async Task<ICollection<RideViewModel>> GetRequestedRidesAsync()
     {
         return await context.Rides
+            .Include(e => e.RideStops)
             .Where(e => e.Status == RideStatus.Requested)
             .Select(e => mapper.Map<RideViewModel>(e))
             .ToListAsync();

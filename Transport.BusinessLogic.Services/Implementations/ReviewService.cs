@@ -31,7 +31,9 @@ internal class ReviewService : IReviewService
 
     public async Task<UserReviewViewModel?> GetReviewById(Guid id)
     {
-        var userReview = await context.UserReviews.FirstOrDefaultAsync(e => e.Id == id);
+        var userReview = await context.UserReviews
+            .Include(e => e.Author)
+            .FirstOrDefaultAsync(e => e.Id == id);
 
         if (userReview == null)
             return null;
@@ -58,6 +60,7 @@ internal class ReviewService : IReviewService
         var driver = await context.Drivers
             .Include(e => e.UserReviewsDrivers)
             .ThenInclude(userReviewsDriver => userReviewsDriver.UserReview)
+            .ThenInclude(userReview => userReview.Author)
             .FirstOrDefaultAsync(e => e.Id == driverId);
 
         if (driver == null)
@@ -71,6 +74,7 @@ internal class ReviewService : IReviewService
 
     public async Task<ICollection<UserReviewViewModel>> GetUserReviews(Guid userId) =>
         await context.UserReviews
+            .Include(e => e.Author)
             .Where(e => e.AuthorId == userId)
             .Select(e => mapper.Map<UserReviewViewModel>(e))
             .ToListAsync();
