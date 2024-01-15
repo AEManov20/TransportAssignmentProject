@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 using Transport.BusinessLogic.Models;
 using Transport.BusinessLogic.Services.Contracts;
 using Transport.Data;
 using Transport.Data.Models;
+
+[assembly: InternalsVisibleTo("Transport.BusinessLogic.Tests")]
 
 namespace Transport.BusinessLogic.Services.Implementations;
 

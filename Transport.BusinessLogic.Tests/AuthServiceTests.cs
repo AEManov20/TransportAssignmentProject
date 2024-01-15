@@ -1,4 +1,5 @@
 using AutoMapper;
+using FakeItEasy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -7,7 +8,6 @@ using NUnit.Framework;
 [TestFixture]
 public class AuthServiceTests
 {
-    private IAuthService authService;
     private ApplicationDbContext context;
     private UserManager<User> userManager;
     private SignInManager<User> signInManager;
@@ -48,11 +48,10 @@ public class AuthServiceTests
         mapper = provider.GetRequiredService<IMapper>();
         userManager = provider.GetRequiredService<UserManager<User>>();
         signInManager = provider.GetRequiredService<SignInManager<User>>();
-
-        authService = new AuthService(userManager, signInManager);
+        
 
         // Seed example data
-        await userManager.CreateAsync(
+        var result = await userManager.CreateAsync(
                     mapper.Map<User>(new UserInputModel()
                     {
                         Email = "testing1@example.com",
@@ -60,9 +59,9 @@ public class AuthServiceTests
                         LastName = "Doe",
                         PhoneNumber = "+359888888888",
                         UserName = "john_doe"
-                    }), "12341234");
+                    }), "12341234Aa_");
 
-        await userManager.CreateAsync(
+        result = await userManager.CreateAsync(
                     mapper.Map<User>(new UserInputModel()
                     {
                         Email = "testing2@example.com",
@@ -70,14 +69,15 @@ public class AuthServiceTests
                         LastName = "Doe",
                         PhoneNumber = "+359888888889",
                         UserName = "jane_doe"
-                    }), "12341234");
+                    }), "12341234Bb_");
 
     }
 
     [Test]
-    public async Task Test_CheckUserExistsAsync_Valid()
+    public async Task CheckUserExistsAsync_Valid()
     {
         // Arrange
+        var authService = new AuthService(userManager, signInManager);
         string email = "testing1@example.com";
 
         // Act
@@ -88,13 +88,59 @@ public class AuthServiceTests
     }
 
     [Test]
-    public async Task Test_CheckUserExistsAsync_Invalid()
+    public async Task CheckUserExistsAsync_Invalid()
     {
         // Arrange
+        var authService = new AuthService(userManager, signInManager);
         string email = "testing@example.com";
 
         // Act
         var result = await authService.CheckUserExistsAsync(email);
+
+        // Assert
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public async Task CheckPassword_Valid()
+    {
+        // Arrange
+        var authService = new AuthService(userManager, signInManager);
+        string email = "testing1@example.com";
+        string password = "12341234Aa_";
+
+        // Act
+        var result = await authService.CheckPassword(email, password);
+
+        // Assert
+        Assert.That(result, Is.True);
+    }
+
+    [Test]
+    public async Task CheckPassword_InvalidPassword()
+    {
+        // Arrange
+        var authService = new AuthService(userManager, signInManager);
+        string email = "testing1@example.com";
+        string password = "12341234";
+
+        // Act
+        var result = await authService.CheckPassword(email, password);
+
+        // Assert
+        Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public async Task CheckPassword_InvalidEmail()
+    {
+        // Arrange
+        var authService = new AuthService(userManager, signInManager);
+        string email = "testing2@example.com";
+        string password = "12341234Aa_";
+
+        // Act
+        var result = await authService.CheckPassword(email, password);
 
         // Assert
         Assert.That(result, Is.False);

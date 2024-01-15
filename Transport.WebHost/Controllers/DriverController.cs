@@ -12,14 +12,12 @@ public class DriverController : Controller
 {
     private readonly IDriverService driverService;
     private readonly IAuthedUser authedUser;
-    private readonly IUserService userService;
     private readonly IRideService rideService;
 
-    public DriverController(IDriverService driverService, IAuthedUser authedUser, IUserService userService, IRideService rideService)
+    public DriverController(IDriverService driverService, IAuthedUser authedUser, IRideService rideService)
     {
         this.driverService = driverService;
         this.authedUser = authedUser;
-        this.userService = userService;
         this.rideService = rideService;
     }
 
@@ -85,6 +83,9 @@ public class DriverController : Controller
         if (ride == null)
             return NotFound("ride-not-found");
 
+        if (ride.DriverId == null)
+            return BadRequest("ride-not-accepted");
+
         if (ride.DriverId != authedUser.UserId)
             return BadRequest("not-driver-of-ride");
 
@@ -104,6 +105,9 @@ public class DriverController : Controller
 
         if (ride == null)
             return NotFound("ride-not-found");
+
+        if (ride.DriverId == null)
+            return BadRequest("ride-not-accepted");
 
         if (ride.DriverId != authedUser.UserId)
             return BadRequest("not-driver-of-ride");
@@ -128,11 +132,17 @@ public class DriverController : Controller
         if (ride == null)
             return NotFound("ride-not-found");
 
+        if (ride.DriverId == null)
+            return BadRequest("ride-not-accepted");
+
         if (ride.DriverId != authedUser.UserId)
             return BadRequest("not-driver-of-ride");
 
         if (ride.Status != Data.Models.RideStatus.Cancelled)
             return BadRequest("ride-cancelled");
+
+        if (ride.TookOffOn == null)
+            return BadRequest("ride-not-started");
 
         if (ride.ArrivedOn != null)
             return BadRequest("ride-already-marked");
@@ -180,14 +190,19 @@ public class DriverController : Controller
     }
 
     [HttpPut("@me/vehicle")]
-    public async Task<ActionResult<VehicleViewModel>> UpdateDriverVehicle()
+    public async Task<ActionResult<VehicleViewModel>> UpdateDriverVehicle([FromBody] VehicleInputModel vehicle)
     {
         var driver = await driverService.GetDriverById(authedUser.UserId);
         
         if (driver == null)
             return NotFound("driver-not-found");
 
-        throw new NotImplementedException();
+        var result = await driverService.UpdateDriverVehicleAsync(driver.Id, vehicle);
+        
+        if (result == null)
+            return BadRequest("failed-updating");
+        
+        return Ok(result);
     }
 
 }

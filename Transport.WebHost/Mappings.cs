@@ -11,6 +11,14 @@ public class Mappings : Profile
         CreateMap<UserInputModel, User>();
         CreateMap<UserReviewInputModel, UserReview>();
         CreateMap<VehicleInputModel, Vehicle>();
+        //CreateMap<RideStopInputModel, RideStop>();
+        //CreateMap<RideInputModel, Ride>();
+
+        CreateMap<RideViewModel, RideInputModel>();
+        CreateMap<RideStopViewModel, RideStopInputModel>();
+        CreateMap<UserViewModel, UserInputModel>();
+        CreateMap<VehicleViewModel, VehicleInputModel>();
+        CreateMap<UserReviewViewModel, UserReviewInputModel>();
 
         CreateMap<User, UserViewModel>();
         CreateMap<Vehicle, VehicleViewModel>();
